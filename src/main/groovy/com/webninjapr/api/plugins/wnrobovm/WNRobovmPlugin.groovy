@@ -1,4 +1,4 @@
-package com.webninjapr.api.plugins.robovm
+package com.webninjapr.api.plugins.wnrobovm
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -7,8 +7,6 @@ import org.robovm.compiler.config.Config
 import org.robovm.compiler.config.Config.TargetType
 import org.robovm.compiler.config.OS
 import org.robovm.compiler.config.Arch
-
-import org.robovm.compiler.log.Logger
 import org.robovm.compiler.target.ios.IOSSimulatorLaunchParameters
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,18 +14,18 @@ import org.robovm.compiler.config.Resource
 
 /**
  * <p>A {@link Plugin} to add tasks which compile a Java application using the
- * robovm compiler.</p>
+ * wnrobovm compiler.</p>
  *
  * @author Yamir Encarnacion
  */
-class RobovmPlugin implements Plugin<Project> {
+class WNRobovmPlugin implements Plugin<Project> {
     Logger slf4jLogger = LoggerFactory.getLogger('some-logger')
 
     @Override
     void apply(Project project) {
 
         // Add the 'greeting' extension object
-        project.extensions.create("robovm", RobovmPluginExtension)
+        project.extensions.create("wnrobovm", WNRobovmPluginExtension)
         // Add a task that uses the configuration
         project.task('compileRobovm') << {
 
@@ -106,7 +104,7 @@ class RobovmPlugin implements Plugin<Project> {
 
 
 
-class RobovmPluginExtension {
+class WNRobovmPluginExtension {
 
     def mainClass = null
     def classpath = null

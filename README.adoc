@@ -26,14 +26,22 @@ buildscript {
 }
 ----
 
-And include an extension that looks as follows:
+Include an extension that looks as follows:
 
 [source,groovy]
 ----
-robovm {
+wnrobovm {
     mainClass= 'HelloJava'
     classpath = runtimeClasspath
 }
+----
+
+
+And apply the plugin:
+
+[source, groovy]
+----
+apply plugin: 'wnrobovm'
 ----
 
 Replace mainClass with your main class.

@@ -59,7 +59,7 @@ bintray {
         name = 'gradle-wn-robovm-plugin'
         desc = 'WN Gradle plugin for Robovm'
         licenses = ['GPL-3.0']
-        labels = ['robovm']
+        labels = ['wnrobovm']
     }
 }
 
