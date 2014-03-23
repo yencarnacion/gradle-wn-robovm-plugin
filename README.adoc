@@ -1,0 +1,41 @@
+== gradle-wn-robovm-plugin
+gradle-wn-robovm-plugin is copyrighted free software by Yamir Encarnación <yencarnacion@webninjapr.com>.
+You can redistribute it and/or modify it under the terms of the GPLv3
+(see the file NOTICE.txt).
+
+=== Notes
+Inspired by the https://github.com/ajhager/sbt-robovm[sbt-robovm plugin]
+
+=== Usage
+
+Include the following in your build.gradle:
+
+[source,groovy]
+----
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url uri('http://dl.bintray.com/yencarnacion/webninjapr-maven')
+        }
+    }
+    dependencies {
+        classpath 'org.robovm:robovm-compiler:0.0.10'
+        classpath group: 'com.webninjapr', name: 'gradle-wn-robovm-plugin', version: '0.0.2'
+    }
+}
+----
+
+And include an extension that looks as follows:
+
+[source,groovy]
+----
+robovm {
+    mainClass= 'HelloJava'
+    classpath = runtimeClasspath
+}
+----
+
+Replace mainClass with your main class.
+
+See https://github.com/yencarnacion/robovm-ios-samples[robovm-ios-samples] to see the plugin in action
