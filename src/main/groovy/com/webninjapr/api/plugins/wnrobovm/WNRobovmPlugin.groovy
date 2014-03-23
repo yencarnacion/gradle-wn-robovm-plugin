@@ -29,8 +29,8 @@ class WNRobovmPlugin implements Plugin<Project> {
         // Add a task that uses the configuration
         project.task('compileRobovm') << {
 
-            if (project.robovm.robovmLogger == null) {
-                project.robovm.robovmLogger = new org.robovm.compiler.log.Logger() {
+            if (project.wnrobovm.robovmLogger == null) {
+                project.wnrobovm.robovmLogger = new org.robovm.compiler.log.Logger() {
                     public void debug(String s, Object... objects) {
                         slf4jLogger.debug(String.format(s, objects));
                     }
@@ -50,18 +50,24 @@ class WNRobovmPlugin implements Plugin<Project> {
             }
             def builder = new Config.Builder()
 
+            File robovmxml = new File(project.getProjectDir(), "robovm.xml");
 
-            builder.mainClass(project.robovm.mainClass)
-                    .executableName(project.robovm.executableName)
-                    .logger(project.robovm.robovmLogger)
-                    .skipInstall(project.robovm.skipInstall)
-                    .targetType(project.robovm.targetType)
-                    .os(project.robovm.os)
-                    .arch(project.robovm.arch)
+            if(robovmxml){
+                println "Found robovm.xml"
+                builder.read(robovmxml)
+            }
+
+            builder.mainClass(project.wnrobovm.mainClass)
+                    .executableName(project.wnrobovm.executableName)
+                    .logger(project.wnrobovm.robovmLogger)
+                    .skipInstall(project.wnrobovm.skipInstall)
+                    .targetType(project.wnrobovm.targetType)
+                    .os(project.wnrobovm.os)
+                    .arch(project.wnrobovm.arch)
 
 
 
-            project.robovm.classpath.each({
+            project.wnrobovm.classpath.each({
                 if(it.exists() && it.canRead()) {
                     println "cpe: " + it.getPath();
                     builder.addClasspathEntry(it)
@@ -70,13 +76,13 @@ class WNRobovmPlugin implements Plugin<Project> {
                 }
             })
 
-            if(project.robovm.resources){
-                project.robovm.resources.each({
+            if(project.wnrobovm.resources){
+                project.wnrobovm.resources.each({
                     if(it.exists() && it.canRead()){
                         println "resource: " + it.getPath();
                         def resource = new Resource(it)
-                                .skipPngCrush(project.robovm.skipPngCrush)
-                                .flatten(project.robovm.flattenResources)
+                                .skipPngCrush(project.wnrobovm.skipPngCrush)
+                                .flatten(project.wnrobovm.flattenResources)
                         builder.addResource(resource);
                     } else {
                         println "resource (Skipping)" + it.getPath();
@@ -84,7 +90,7 @@ class WNRobovmPlugin implements Plugin<Project> {
                 })
             }
 
-            project.robovm.robovmLogger?.info("Compiling RoboVM app, this could take a while")
+            project.wnrobovm.robovmLogger?.info("Compiling RoboVM app, this could take a while")
             println "Compiling RoboVM app!"
             def config = builder.build()
             def compiler = new AppCompiler(config)
@@ -120,6 +126,7 @@ class WNRobovmPluginExtension {
 
     def skipPngCrush = false
     def flattenResources = true
+    def resources = null
     String filePath
 
     def installDir = new File("./build")
